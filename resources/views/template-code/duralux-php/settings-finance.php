@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+    <?php $title='Duralux - Admin & Dashboard PHP Template'?>
+    <?php include './partials/head.php'?>
+
+<body>
+		<!-- Left sidebar -->
+        <?php include './partials/left-sidebar.php'?>
+	
+	<!-- Header Section Start -->
+        <?php include './partials/header.php'?>
+    <!--! ================================================================ !-->
+    <!--! [Start] Main Content !-->
+    <!--! ================================================================ !-->
+    <main class="nxl-container apps-container">
+        <div class="nxl-content without-header nxl-full-content">
+            <!-- [ Main Content ] start -->
+            <div class="main-content d-flex">
+                <!-- [ Content Sidebar ] start -->
+                <div class="content-sidebar content-sidebar-md" data-scrollbar-target="#psScrollbarInit">
+                    <div class="content-sidebar-header bg-white sticky-top hstack justify-content-between">
+                        <h4 class="fw-bolder mb-0">Settings</h4>
+                        <a href="javascript:void(0);" class="app-sidebar-close-trigger d-flex">
+                            <i class="feather-x"></i>
+                        </a>
+                    </div>
+                    <div class="content-sidebar-body">
+                        <ul class="nav flex-column nxl-content-sidebar-item">
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-general.html">
+                                    <i class="feather-airplay"></i>
+                                    <span>General</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-seo.html">
+                                    <i class="feather-search"></i>
+                                    <span>SEO</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-tags.html">
+                                    <i class="feather-tag"></i>
+                                    <span>Tags</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-email.html">
+                                    <i class="feather-mail"></i>
+                                    <span>Email</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-tasks.html">
+                                    <i class="feather-check-circle"></i>
+                                    <span>Tasks</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-leads.html">
+                                    <i class="feather-crosshair"></i>
+                                    <span>Leads</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-support.html">
+                                    <i class="feather-life-buoy"></i>
+                                    <span>Support</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="settings-finance.html">
+                                    <i class="feather-dollar-sign"></i>
+                                    <span>Finance</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-gateways.html">
+                                    <i class="feather-git-branch"></i>
+                                    <span>Gateways</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-customers.html">
+                                    <i class="feather-users"></i>
+                                    <span>Customers</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-localization.html">
+                                    <i class="feather-globe"></i>
+                                    <span>Localization</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-recaptcha.html">
+                                    <i class="feather-shield"></i>
+                                    <span>reCaptcha</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="settings-miscellaneous.html">
+                                    <i class="feather-cast"></i>
+                                    <span>Miscellaneous</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- [ Content Sidebar  ] end -->
+                <!-- [ Main Area  ] start -->
+                <div class="content-area" data-scrollbar-target="#psScrollbarInit">
+                    <div class="content-area-header bg-white sticky-top">
+                        <div class="page-header-left">
+                            <a href="javascript:void(0);" class="app-sidebar-open-trigger me-2">
+                                <i class="feather-align-left fs-24"></i>
+                            </a>
+                        </div>
+                        <div class="page-header-right ms-auto">
+                            <div class="d-flex align-items-center gap-3 page-header-right-items-wrapper">
+                                <a href="javascript:void(0);" class="text-danger">Cancel</a>
+                                <a href="javascript:void(0);" class="btn btn-primary successAlertMessage">
+                                    <i class="feather-save me-2"></i>
+                                    <span>Save Changes</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-area-body">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <div class="mb-5">
+                                    <h4 class="fw-bold">Finance General</h4>
+                                    <div class="fs-12 text-muted">Financial general settings</div>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Decimal Separator </label>
+                                    <select class="form-select" data-select2-selector="default">
+                                        <option value="" selected>. (Dot)</option>
+                                        <option value="">, (Clone)</option>
+                                    </select>
+                                    <small class="form-text text-muted">Decimal Separator [Ex: ./,]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Thousand Separator </label>
+                                    <select class="form-select" data-select2-selector="default">
+                                        <option value="">. (Dot)</option>
+                                        <option value="" selected>, (Clone)</option>
+                                        <option value="">' (Apostrophe)</option>
+                                        <option value="">None</option>
+                                        <option value="">Space</option>
+                                    </select>
+                                    <small class="form-text text-muted">Thousand Separator [Ex: ./,/'/None/Space]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Default Tax </label>
+                                    <select class="form-select" data-select2-selector="priority">
+                                        <option value="" data-bg="bg-dark" selected>No Tax</option>
+                                        <option value="" data-bg="bg-primary">5% + $2</option>
+                                        <option value="" data-bg="bg-success">10% + $2</option>
+                                        <option value="" data-bg="bg-indigo">15% + $2</option>
+                                        <option value="" data-bg="bg-warning">20% + $2</option>
+                                        <option value="" data-bg="bg-danger">25% + $2</option>
+                                    </select>
+                                    <small class="form-text text-muted">Default Tax [Ex: 5%/10%/15%]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Show TAX per item </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Show TAX per item [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Remove the tax name from item table row</label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Remove the tax name from item table row [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Exclude currency symbol from items table Amount </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Exclude currency symbol from items table Amount [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Remove decimals on numbers/money with zero decimals (2.00 will become 2, 2.25 will stay 2.25) </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Remove decimals on numbers/money with zero decimals (2.00 will become 2, 2.25 will stay 2.25) [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Output total amount to words in invoice/estimate/proposal </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Output total amount to words in invoice/estimate/proposal [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Number words into lowercase </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Number words into lowercase [Ex: Yes/No]</small>
+                                </div>
+                                <hr class="my-5">
+                                <div class="mb-5">
+                                    <h4 class="fw-bold">Invoice Seetting</h4>
+                                    <div class="fs-12 text-muted">Invoicing set correctly.</div>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Invoice Number Prefix</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">INV-</span>
+                                        <input type="text" class="form-control" placeholder="Invoice Number Prefix">
+                                    </div>
+                                    <small class="form-text text-muted">Invoice Number Prefix [Ex: INV-/ORD-]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Invoice due after (days)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="feather-calendar"></i>
+                                        </span>
+                                        <input type="number" class="form-control" placeholder="Invoice due after (days)">
+                                    </div>
+                                    <small class="form-text text-muted">Invoice due after (days) [Ex: 15/30 days]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Allow staff members to view invoices where they are assigned to </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Allow staff members to view invoices where they are assigned to [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Require client to be logged in to view invoice </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Require client to be logged in to view invoice [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Delete invoice allowed only on last invoice </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Delete invoice allowed only on last invoice [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label"> Decrement invoice number on delete </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted"> Decrement invoice number on delete [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Exclude invoices with draft status from customers area </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Exclude invoices with draft status from customers area [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Show Sale Agent On Invoice </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Show Sale Agent On Invoice [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Show Project Name On Invoice </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Show Project Name On Invoice [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Show Total Paid On Invoice </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Show Total Paid On Invoice [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Show Credits Applied On Invoice </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Show Credits Applied On Invoice [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Show Amount Due On Invoice </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success" selected>Yes</option>
+                                        <option value="" data-icon="feather-x text-danger">No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Show Amount Due On Invoice [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Attach invoice PDF when sending payment receipt to email </label>
+                                    <select class="form-select" data-select2-selector="icon">
+                                        <option value="" data-icon="feather-check text-success">Yes</option>
+                                        <option value="" data-icon="feather-x text-danger" selected>No</option>
+                                    </select>
+                                    <small class="form-text text-muted">Attach invoice PDF when sending payment receipt to email [Ex: Yes/No]</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Predefined Client Note</label>
+                                    <textarea cols="30" rows="10" class="form-control" placeholder="Predefined Client Note"></textarea>
+                                    <small class="form-text text-muted">Predefined Client Note</small>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Predefined Terms & Conditions</label>
+                                    <textarea cols="30" rows="10" class="form-control" placeholder="Predefined Terms & Conditions"></textarea>
+                                    <small class="form-text text-muted">Predefined Terms & Conditions</small>
+                                </div>
+                                <div class="mb-0">
+                                    <label class="form-label">Proposal Info Format (PDF and HTML)</label>
+                                    <textarea class="form-control" cols="30" rows="10" placeholder="{proposal_to}
+{address}
+{city} {state}
+{country_code} {zip_code}
+{phone}
+{email}"></textarea>
+                                    <small class="form-text text-muted">Proposal Info Format (PDF and HTML) [Ex: {proposal_to} {address} {city} {state} {country_code} {zip_code} {phone} {email}]</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Footer ] start -->
+                    <?php include './partials/footer.php'?>
+                    <!-- [ Footer ] end -->
+                </div>
+                <!-- [ Content Area ] end -->
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+    </main>
+    <!--! ================================================================ !-->
+    <!--! [End] Main Content !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! BEGIN: Compose Mail Modal !-->
+    <!--! ================================================================ !-->
+    <div class="modal fade-scale" id="composeMail" tabindex="-1" aria-labelledby="composeMail" aria-hidden="true" data-bs-dismiss="ou">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <!--! BEGIN: [modal-header] !-->
+                <div class="modal-header">
+                    <h2 class="d-flex flex-column mb-0">
+                        <span class="fs-18 fw-bold mb-1">Compose Mail</span>
+                        <small class="d-block fs-11 fw-normal text-muted">Compose Your Message</small>
+                    </h2>
+                    <a href="javascript:void(0)" class="avatar-text avatar-md bg-soft-danger close-icon" data-bs-dismiss="modal">
+                        <i class="feather-x text-danger"></i>
+                    </a>
+                </div>
+                <!--! BEGIN: [modal-body] !-->
+                <div class="modal-body p-0">
+                    <div class="position-relative border-bottom">
+                        <div class="px-2 d-flex align-items-center">
+                            <div class="p-0 w-100">
+                                <input class="form-control border-0 text-dark" name="tomailmodal" placeholder="TO">
+                            </div>
+                        </div>
+                        <a href="javascript:void(0)" class="position-absolute top-50 end-0 translate-middle badge bg-gray-100 border border-gray-3 fs-10 fw-semibold text-uppercase text-dark rounded-pill c-pointer z-index-100" id="ccbccToggleModal"><span data-bs-toggle="tooltip" data-bs-trigger="hover" title="CC / BCC" style="font-size: 9px !important">CC / BCC</span></a>
+                    </div>
+                    <div class="border-bottom mail-cc-bcc-fields" id="ccbccToggleModalFileds" style="display: none">
+                        <div class="px-2 w-100 d-flex align-items-center border-bottom">
+                            <input class="form-control border-0 text-dark" name="ccmailmodal" placeholder="CC">
+                        </div>
+                        <div class="px-2 w-100 d-flex align-items-center">
+                            <input class="form-control border-0 text-dark" name="bccmailmodal" placeholder="BCC">
+                        </div>
+                    </div>
+                    <div class="px-3 w-100 d-flex align-items-center">
+                        <input class="form-control border-0 my-1 w-100 shadow-none" type="email" placeholder="Subject">
+                    </div>
+                    <div class="editor w-100 m-0">
+                        <div class="ht-300 border-bottom-0" id="mailEditorModal"></div>
+                    </div>
+                </div>
+                <!--! BEGIN: [modal-footer] !-->
+                <div class="modal-footer d-flex align-items-center justify-content-between">
+                    <!--! BEGIN: [mail-editor-action-left] !-->
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown me-2">
+                            <a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-offset="0, 0">
+                                <span class="btn btn-primary dropdown-toggle" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Send Message"> Send </span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="javascript:void(0)" class="dropdown-item" data-action-target="#mailActionMessage">
+                                    <i class="feather-send me-3"></i>
+                                    <span>Instant Send</span>
+                                </a>
+                                <a href="javascript:void(0);" class="dropdown-item successAlertMessage">
+                                    <i class="feather-clock me-3"></i>
+                                    <span>Schedule Send</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="javascript:void(0)" class="dropdown-item successAlertMessage">
+                                    <i class="feather-x me-3"></i>
+                                    <span>Discard Now</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item successAlertMessage">
+                                    <i class="feather-edit-3 me-3"></i>
+                                    <span>Save as Draft</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="dropdown me-2 d-none d-sm-block">
+                            <a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-offset="0, 0">
+                                <span class="btn btn-icon" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Pick Template">
+                                    <i class="feather-hash"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu wd-300">
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-file-text me-3"></i>
+                                    <span>Welcome you message</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-file-text me-3"></i>
+                                    <span>Your issues solved</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-file-text me-3"></i>
+                                    <span>Thank you message</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-file-text me-3"></i>
+                                    <span>Make a offer message</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-file-text me-3"></i>
+                                    <span>Add the Unsubscribe option</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-file-text me-3"></i>
+                                    <span>Thank your customer for joining</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-save me-3"></i>
+                                    <span>Save as Template</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-sun me-3"></i>
+                                    <span>Manage Template</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-offset="0, 0">
+                                <span class="btn btn-icon" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Upload Attachments">
+                                    <i class="feather-upload"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-image me-3"></i>
+                                    <span>Upload Images</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-video me-3"></i>
+                                    <span>Upload Videos</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-mic me-3"></i>
+                                    <span>Upload Musics</span>
+                                </a>
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class="feather-file-text me-3"></i>
+                                    <span>Upload Documents</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--! BEGIN: [mail-editor-action-right] !-->
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown me-2">
+                            <a href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-offset="0, 0">
+                                <span class="btn btn-icon" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Editing Actions">
+                                    <i class="feather-more-horizontal"></i>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:void(0)" class="dropdown-item">
+                                        <i class="feather-type me-3"></i>
+                                        <span>Plain Text Mode</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="dropdown-item">
+                                        <i class="feather-check me-3"></i>
+                                        <span>Check Spelling</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="dropdown-item">
+                                        <i class="feather-compass me-3"></i>
+                                        <span>Smart Compose</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="dropdown-item">
+                                        <i class="feather-feather me-3"></i>
+                                        <span>Manage Signature</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href="javascript:void(0);" data-bs-dismiss="modal">
+                            <span class="btn btn-icon" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Delete Message">
+                                <i class="feather-x"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! END: Compose Mail Modal !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! [Start] Search Modal !-->
+    <!--! ================================================================ !-->
+    <div class="modal fade-scale" id="searchModal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-top modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header search-form py-0">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="feather-search fs-4 text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control search-input-field" placeholder="Search...">
+                        <span class="input-group-text">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="searching-for mb-5">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">I'm searching for...</h4>
+                        <div class="row g-1">
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-compass"></i>
+                                    <span>Recent</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-command"></i>
+                                    <span>Command</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-users"></i>
+                                    <span>Peoples</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-file"></i>
+                                    <span>Files</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-video"></i>
+                                    <span>Medias</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <span>More</span>
+                                    <i class="feather-chevron-down"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recent-result mb-5">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">Recnet <span class="badge small bg-gray-200 rounded ms-1 text-dark">3</span></h4>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-airplay fs-5"></i>
+                                <div class="fs-13 fw-semibold">CRM dashboard redesign</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">/<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-file-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Create new eocument</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">N /<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-user-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Invite project colleagues</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">P /<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                    </div>
+                    <div class="command-result mb-5">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">Command <span class="badge small bg-gray-200 rounded ms-1 text-dark">5</span></h4>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-user fs-5"></i>
+                                <div class="fs-13 fw-semibold">My profile</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">P /<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-users fs-5"></i>
+                                <div class="fs-13 fw-semibold">Team profile</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">T /<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-user-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Invite colleagues</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">I /<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-briefcase fs-5"></i>
+                                <div class="fs-13 fw-semibold">Create new project</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">CP /<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-life-buoy fs-5"></i>
+                                <div class="fs-13 fw-semibold">Support center</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">SC /<i class="feather-command ms-1 fs-12"></i></a>
+                        </div>
+                    </div>
+                    <div class="file-result mb-4">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">Files <span class="badge small bg-gray-200 rounded ms-1 text-dark">3</span></h4>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-folder-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">CRM Desing Project <span class="fs-12 fw-normal text-muted">(56.74 MB)</span></div>
+                            </a>
+                            <a href="javascript:void(0);" class="file-download"><i class="feather-download"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-folder-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Admin Dashboard Project <span class="fs-12 fw-normal text-muted">(46.83 MB)</span></div>
+                            </a>
+                            <a href="javascript:void(0);" class="file-download"><i class="feather-download"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-folder-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">CRM Dashboard Project <span class="fs-12 fw-normal text-muted">(68.59 MB)</span></div>
+                            </a>
+                            <a href="javascript:void(0);" class="file-download"><i class="feather-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! [End] Search Modal !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! [Start] Language Select !-->
+    <!--! ================================================================ !-->
+    <div class="modal fade-scale" id="languageSelectModal" aria-hidden="true" aria-labelledby="languageSelectModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="languageSelectModalLabel">Select Language</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/sa.svg" alt="" class="img-fluid"></div>
+                                <span>Arabic </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/bd.svg" alt="" class="img-fluid"></div>
+                                <span>Bengali </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/ch.svg" alt="" class="img-fluid"></div>
+                                <span>Chinese </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/hr.svg" alt="" class="img-fluid"></div>
+                                <span>Croatian </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/dk.svg" alt="" class="img-fluid"></div>
+                                <span>Danish </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/nl.svg" alt="" class="img-fluid"></div>
+                                <span>Dutch </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select active">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/us.svg" alt="" class="img-fluid"></div>
+                                <span>English </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/fi.svg" alt="" class="img-fluid"></div>
+                                <span>Filipino </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/fr.svg" alt="" class="img-fluid"></div>
+                                <span>French </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/de.svg" alt="" class="img-fluid"></div>
+                                <span>German </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/il.svg" alt="" class="img-fluid"></div>
+                                <span>Hebrew </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/in.svg" alt="" class="img-fluid"></div>
+                                <span>Hindi </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/id.svg" alt="" class="img-fluid"></div>
+                                <span>Indonesian </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/it.svg" alt="" class="img-fluid"></div>
+                                <span>Italian </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/jp.svg" alt="" class="img-fluid"></div>
+                                <span>Japanese </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/kr.svg" alt="" class="img-fluid"></div>
+                                <span>Korean </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/ir.svg" alt="" class="img-fluid"></div>
+                                <span>Persian </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/pt.svg" alt="" class="img-fluid"></div>
+                                <span>Portuguese </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/ru.svg" alt="" class="img-fluid"></div>
+                                <span>Russian </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/es.svg" alt="" class="img-fluid"></div>
+                                <span>Spanish </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/sv.svg" alt="" class="img-fluid"></div>
+                                <span>Swedish </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/tr.svg" alt="" class="img-fluid"></div>
+                                <span>Turkish </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/pk.svg" alt="" class="img-fluid"></div>
+                                <span>Urdo</span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="assets/vendors/img/flags/1x1/vi.svg" alt="" class="img-fluid"></div>
+                                <span>Vietnamese</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! [End] Language Select !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! BEGIN: Downloading Toast !-->
+    <!--! ================================================================ !-->
+    <div class="position-fixed" style="right: 5px; bottom: 5px; z-index: 999999">
+        <div id="toast" class="toast bg-black hide" data-bs-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header px-3 bg-transparent d-flex align-items-center justify-content-between border-bottom border-light border-opacity-10">
+                <div class="text-white mb-0 mr-auto">Downloading...</div>
+                <a href="javascript:void(0)" class="ms-2 mb-1 close fw-normal" data-bs-dismiss="toast" aria-label="Close">
+                    <span class="text-white">&times;</span>
+                </a>
+            </div>
+            <div class="toast-body p-3 text-white">
+                <h6 class="fs-13 text-white">Project.zip</h6>
+                <span class="text-light fs-11">4.2mb of 5.5mb</span>
+            </div>
+            <div class="toast-footer p-3 pt-0 border-top border-light border-opacity-10">
+                <div class="progress mt-3" style="height: 5px">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated w-75 bg-dark" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! END: Downloading Toast !-->
+    <!--! ================================================================ !-->
+	<?php include './partials/theme-customizer.php'?>
+	<!--<< All JS Plugins >>-->
+	<?php include './partials/script.php'?>	
+</body>
+
+</html>

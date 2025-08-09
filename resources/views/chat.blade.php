@@ -58,42 +58,6 @@
                                                 <span
                                                     class="fs-10 fw-medium text-muted text-uppercase d-none d-sm-block">{{ $user['last_seen'] }}</span>
                                             </a>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0)" class="avatar-text avatar-sm"
-                                                    data-bs-toggle="dropdown">
-                                                    <i class="feather-more-vertical"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end overflow-auto">
-                                                    <li>
-                                                        <a href="javascript:void(0)" class="dropdown-item favorite-toggle"
-                                                            data-user-id="{{ $user['id'] }}">
-                                                            <i
-                                                                class="feather-star me-3 {{ $user['is_favorite'] ? 'text-warning' : '' }}"></i>
-                                                            <span>{{ $user['is_favorite'] ? 'Remove from Favorite' : 'Add to Favorite' }}</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:void(0)" class="dropdown-item">
-                                                            <i class="feather-bell-off me-3"></i>
-                                                            <span>Mute Notifications</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="dropdown-divider"></li>
-                                                    <li>
-                                                        <a href="javascript:void(0)" class="dropdown-item">
-                                                            <i class="feather-mail me-3"></i>
-                                                            <span>Send eMail</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="dropdown-divider"></li>
-                                                    <li>
-                                                        <a href="javascript:void(0)" class="dropdown-item">
-                                                            <i class="feather-archive me-3"></i>
-                                                            <span>Archive Chat</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
                                         </div>
                                         <p
                                             class="fs-12 {{ $user['unread_count'] > 0 ? 'fw-semibold text-dark' : 'text-muted' }} mt-2 mb-0 text-truncate-2-line">
@@ -225,6 +189,23 @@
                 toggleFavorite(userId);
             });
 
+            // Handle page visibility changes
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    // When page becomes visible, update last seen and restart polling if needed
+                    if (!isPolling) {
+                        startPolling();
+                    }
+                    // Force an immediate poll to get latest messages
+                    pollForUpdates();
+                }
+            });
+            
+            // Handle page unload to clean up resources
+            window.addEventListener('beforeunload', function() {
+                stopPolling();
+            });
+
             // Start polling for new messages
             startPolling();
         }
@@ -233,39 +214,42 @@
             // Store previous user ID to check if we're switching chats
             const previousUserId = selectedUserId;
             selectedUserId = userId;
-
+        
             // Update UI
             $('.user-item').removeClass('active');
             element.addClass('active');
-
+        
             // Show chat header and editor
             $('#selectedUserInfo').show();
             $('#chatActions').show();
             $('#messageEditor').show();
             $('#welcomeMessage').hide();
-
+        
             // Update selected user info
             const avatar = element.find('.avatar-image img').attr('src') || null;
             const initials = element.find('.avatar-text').text() || userName.charAt(0);
             const isOnline = element.find('.bg-success').length > 0;
             const lastSeen = element.find('.fs-10').text();
-
+        
             if (avatar) {
                 $('#selectedUserAvatar').html(`<img src="${avatar}" class="img-fluid rounded-circle" alt="image">`);
             } else {
                 $('#selectedUserAvatar').html(`<div class="bg-primary text-white avatar-text">${initials}</div>`);
             }
-
+        
             $('#selectedUserName').text(userName);
             $('#selectedUserStatus').removeClass().addClass(
                 `wd-7 ht-7 rounded-circle opacity-75 me-2 ${isOnline ? 'bg-success' : 'bg-gray-500'}`);
             $('#selectedUserLastSeen').removeClass().addClass(
                 `fs-9 text-uppercase fw-bold ${isOnline ? 'text-success' : 'text-muted'}`).text(isOnline ?
                 'Active Now' : lastSeen);
-
+        
             // Clear previous messages when switching chats
             if (previousUserId !== userId) {
                 $('#messagesContainer').html('<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Loading messages...</p></div>');
+                
+                // Reset last message check time when switching users to avoid loading old messages
+                lastMessageCheck = new Date().toISOString();
             }
             
             // Load messages
@@ -286,13 +270,20 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        displayMessages(response.messages);
-                        selectedUserData = response.conversation_partner;
+                        // Only display messages if this is still the selected user
+                        // This prevents race conditions when switching users quickly
+                        if (selectedUserId == userId) {
+                            displayMessages(response.messages);
+                            selectedUserData = response.conversation_partner;
+                        }
                     }
                 },
                 error: function(xhr) {
                     console.error('Failed to load messages:', xhr);
-                    showError('Failed to load messages');
+                    // Only show error if this is still the selected user
+                    if (selectedUserId == userId) {
+                        $('#messagesContainer').html('<div class="text-center p-5 text-danger"><i class="feather-alert-circle fs-48 mb-3"></i><p>Failed to load messages. Please try again.</p></div>');
+                    }
                 }
             });
         }
@@ -451,7 +442,7 @@
                 if (document.visibilityState === 'visible') {
                     pollForUpdates();
                 }
-            }, 2000); // Poll every 2 seconds for better real-time experience
+            }, 5000); // Increased from 2000 to 5000 ms to reduce server load
         }
 
         function stopPolling() {
@@ -462,7 +453,14 @@
             isPolling = false;
         }
 
+        let isPollRequestInProgress = false;
+
         function pollForUpdates() {
+            // Prevent multiple simultaneous polling requests
+            if (isPollRequestInProgress) return;
+            
+            isPollRequestInProgress = true;
+            
             $.ajax({
                 url: '/api/chat/poll',
                 method: 'POST',
@@ -474,6 +472,8 @@
                     timeout: 25
                 },
                 success: function(response) {
+                    isPollRequestInProgress = false;
+                    
                     if (response.success && response.has_updates) {
                         lastMessageCheck = response.server_time;
 
@@ -490,12 +490,15 @@
                     lastMessageCheck = response.server_time;
                 },
                 error: function(xhr) {
+                    isPollRequestInProgress = false;
                     console.error('Polling failed:', xhr);
                 }
             });
         }
 
-                function handleNewMessages(newMessages) {
+        function handleNewMessages(newMessages) {
+            // Filter messages to only process those relevant to the current conversation
+            // or update the user list for other conversations
             newMessages.forEach(function(message) {
                 // If message is from currently selected user, append it directly
                 if (selectedUserId && message.conversation_partner_id == selectedUserId) {
@@ -507,7 +510,7 @@
                             name: message.sender.name,
                             avatar_url: message.sender.avatar_url
                         },
-                        formatted_message: message.message.replace(/\n/g, '<br>'),
+                        formatted_message: message.formatted_message || message.message.replace(/\n/g, '<br>'),
                         time: message.time,
                         is_sender: false
                     };
@@ -518,7 +521,7 @@
                     // Play notification sound
                     playNotificationSound();
                     
-                    // Mark message as read
+                    // Mark message as read immediately since we're viewing the conversation
                     markAsRead(message.conversation_partner_id);
                 }
                 

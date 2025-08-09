@@ -290,32 +290,92 @@
 
         function displayMessages(messages) {
             let html = '';
-
-            messages.forEach(function(message) {
+            let currentDate = null;
+            let currentSenderId = null;
+            
+            // Create a scrollable container if it doesn't exist
+            if ($('#scrollableMessageArea').length === 0) {
+                $('#messagesContainer').html('<div id="scrollableMessageArea" class="message-scroll-area"></div>');
+            }
+            
+            messages.forEach(function(message, index) {
                 const isCurrentUser = message.sender.id === currentUser.id;
-                const messageClass = isCurrentUser ? 'ms-auto' : '';
-                const flexClass = isCurrentUser ? 'flex-row-reverse' : '';
-
+                const messageDate = message.date || 'Today';
+                const isNewDate = currentDate !== messageDate;
+                const isNewSender = currentSenderId !== message.sender.id;
+                const isLastMessage = index === messages.length - 1;
+                
+                // Add date separator if this is a new day
+                if (isNewDate) {
+                    html += `
+                    <div class="chat-date-separator">
+                        <span class="date-divider-line"></span>
+                        <span class="date-text">${messageDate}</span>
+                        <span class="date-divider-line"></span>
+                    </div>`;
+                    currentDate = messageDate;
+                }
+                
+                // Start a new message group if sender changes
+                if (isNewSender) {
+                    // Close previous message group if not the first message
+                    if (currentSenderId !== null) {
+                        html += `</div>`;
+                    }
+                    
+                    // Start new message group
+                    html += `
+                    <div class="message-group ${isCurrentUser ? 'message-group-right' : 'message-group-left'}">`;
+                    currentSenderId = message.sender.id;
+                }
+                
+                // Determine if we should show the avatar
+                const showAvatar = !isCurrentUser && (isNewSender || isLastMessage);
+                
+                // Message bubble
                 html += `
-                <div class="single-chat-item mb-5">
-                    <div class="d-flex ${flexClass} align-items-center gap-3 mb-3">
-                        <a href="javascript:void(0)" class="avatar-image">
-                            <img src="${message.sender.avatar_url}" class="img-fluid rounded-circle" alt="image">
-                        </a>
-                        <div class="d-flex ${flexClass} align-items-center gap-2">
-                            <a href="javascript:void(0);">${message.sender.name}</a>
-                            <span class="wd-5 ht-5 bg-gray-400 rounded-circle"></span>
-                            <span class="fs-11 text-muted">${message.time}</span>
+                <div class="message-wrapper ${isCurrentUser ? 'message-wrapper-right' : 'message-wrapper-left'}">
+                    ${showAvatar ? `
+                    <div class="message-avatar">
+                        <img src="${message.sender.avatar_url}" alt="${message.sender.name}">
+                    </div>` : ''}
+                    <div class="message-content-wrapper">
+                        ${isNewSender ? `
+                        <div class="message-sender-name ${isCurrentUser ? 'text-right' : 'text-left'}">
+                            <span>${isCurrentUser ? 'You' : message.sender.name}</span>
+                        </div>` : ''}
+                        <div class="message-bubble ${isCurrentUser ? 'message-bubble-sender' : 'message-bubble-receiver'}">
+                            <p class="message-text">${message.formatted_message}</p>
+                        </div>
+                        <div class="message-meta ${isCurrentUser ? 'text-right' : 'text-left'}"> 
+                            <span class="message-time">${message.time}</span>
+                            ${isCurrentUser ? `<span class="message-status ${message.is_read ? 'read' : 'sent'}"></span>` : ''}
                         </div>
                     </div>
-                    <div class="wd-500 p-3 rounded-5 bg-gray-200 ${messageClass}">
-                        <p class="py-2 px-3 rounded-5 bg-white mb-0">${message.formatted_message}</p>
+                </div>`;
+            });
+            
+            // Close the last message group
+            if (currentSenderId !== null) {
+                html += `</div>`;
+            }
+            
+            // Add typing indicator placeholder
+            html += `<div id="typingIndicator" class="typing-indicator-container" style="display: none;">
+                <div class="message-wrapper message-wrapper-left">
+                    <div class="message-avatar">
+                        <img src="" alt="" id="typingAvatar">
+                    </div>
+                    <div class="message-bubble message-bubble-receiver typing-indicator">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
                     </div>
                 </div>
-            `;
-            });
-
-            $('#messagesContainer').html(html || '<div class="text-center p-5 text-muted">No messages yet</div>');
+            </div>`;
+            
+            // Update the scrollable container
+            $('#scrollableMessageArea').html(html || '<div class="no-messages">No messages yet</div>');
             scrollToBottom();
         }
 
@@ -632,3 +692,213 @@
         });
     </script>
 @endsection
+
+<style>
+/* Message container styling */
+.message-scroll-area {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 180px); /* Adjust based on your header/footer height */
+}
+
+/* Date separator styling */
+.chat-date-separator {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.date-divider-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.date-text {
+    padding: 0 10px;
+    font-size: 0.75rem;
+    color: #888;
+    background: white;
+    border-radius: 10px;
+}
+
+/* Message group styling */
+.message-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.message-group-left {
+    align-items: flex-start;
+}
+
+.message-group-right {
+    align-items: flex-end;
+}
+
+/* Message wrapper styling */
+.message-wrapper {
+    display: flex;
+    margin-bottom: 0.5rem;
+    max-width: 80%;
+}
+
+.message-wrapper-left {
+    align-self: flex-start;
+}
+
+.message-wrapper-right {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+/* Avatar styling */
+.message-avatar {
+    width: 36px;
+    height: 36px;
+    margin: 0 8px;
+    flex-shrink: 0;
+}
+
+.message-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Message content styling */
+.message-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(100% - 10px);
+}
+
+.message-sender-name {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    color: #666;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+/* Message bubble styling */
+.message-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 18px;
+    position: relative;
+}
+
+.message-bubble-sender {
+    background-color: #0d6efd; /* Bootstrap primary color */
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message-bubble-receiver {
+    background-color: #6f747c;
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.message-text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Message metadata styling */
+.message-meta {
+    display: flex;
+    align-items: center;
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 0.25rem;
+}
+
+.message-time {
+    margin-right: 4px;
+}
+
+.message-status {
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+    position: relative;
+}
+
+.message-status.sent::after {
+    content: '✓';
+    font-size: 12px;
+    color: #888;
+}
+
+.message-status.read::after {
+    content: '✓✓';
+    font-size: 12px;
+    color: #0d6efd;
+}
+
+/* No messages placeholder */
+.no-messages {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+}
+
+/* Typing indicator */
+.typing-indicator-container {
+    margin-top: 0.5rem;
+}
+
+.typing-indicator {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.typing-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #888;
+    margin: 0 2px;
+    animation: typing-animation 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typing-animation {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .message-wrapper {
+        max-width: 90%;
+    }
+    
+    .message-bubble {
+        padding: 0.5rem 0.75rem;
+    }
+}
+</style>

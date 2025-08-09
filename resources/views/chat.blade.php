@@ -345,6 +345,26 @@
                 return;
             }
 
+            // Optimistic UI update - show message immediately
+            const tempId = 'temp-' + Date.now();
+            const optimisticMessage = {
+                id: tempId,
+                sender: {
+                    id: currentUser.id,
+                    name: currentUser.name,
+                    avatar_url: currentUser.avatar_url || `assets/images/avatar/${currentUser.avatar_number}.png`
+                },
+                formatted_message: message.replace(/\n/g, '<br>'),
+                time: 'Just now',
+                is_sender: true
+            };
+            
+            // Add the message to the UI immediately
+            appendMessage(optimisticMessage);
+            
+            // Clear input field
+            $('#messageInput').val('');
+            
             $.ajax({
                 url: `/api/chat/users/${selectedUserId}/messages`,
                 method: 'POST',
@@ -356,15 +376,49 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        $('#messageInput').val('');
-                        loadMessages(selectedUserId); // Reload messages
+                        // Replace the temporary message with the confirmed one
+                        $(`#${tempId}`).remove();
+                        appendMessage(response.message);
+                        
+                        // Update the user list with the new message
+                        updateUserLastMessage(selectedUserId, message, 'Just now');
                     }
                 },
                 error: function(xhr) {
                     console.error('Failed to send message:', xhr);
                     showError('Failed to send message');
+                    // Mark the message as failed
+                    $(`#${tempId}`).addClass('message-failed');
                 }
             });
+        }
+        
+        // Helper function to append a single message to the chat
+        function appendMessage(message) {
+            const isCurrentUser = message.sender.id === currentUser.id;
+            const messageClass = isCurrentUser ? 'ms-auto' : '';
+            const flexClass = isCurrentUser ? 'flex-row-reverse' : '';
+            
+            const html = `
+                <div class="single-chat-item mb-5" id="${message.id || ''}">
+                    <div class="d-flex ${flexClass} align-items-center gap-3 mb-3">
+                        <a href="javascript:void(0)" class="avatar-image">
+                            <img src="${message.sender.avatar_url}" class="img-fluid rounded-circle" alt="image">
+                        </a>
+                        <div class="d-flex ${flexClass} align-items-center gap-2">
+                            <a href="javascript:void(0);">${message.sender.name}</a>
+                            <span class="wd-5 ht-5 bg-gray-400 rounded-circle"></span>
+                            <span class="fs-11 text-muted">${message.time}</span>
+                        </div>
+                    </div>
+                    <div class="wd-500 p-3 rounded-5 bg-gray-200 ${messageClass}">
+                        <p class="py-2 px-3 rounded-5 bg-white mb-0">${message.formatted_message}</p>
+                    </div>
+                </div>
+            `;
+            
+            $('#messagesContainer').append(html);
+            scrollToBottom();
         }
 
         function toggleFavorite(userId) {
@@ -407,7 +461,7 @@
                 if (document.visibilityState === 'visible') {
                     pollForUpdates();
                 }
-            }, 3000); // Poll every 3 seconds
+            }, 2000); // Poll every 2 seconds for better real-time experience
         }
 
         function stopPolling() {
@@ -451,16 +505,55 @@
             });
         }
 
-        function handleNewMessages(newMessages) {
+                function handleNewMessages(newMessages) {
             newMessages.forEach(function(message) {
-                // If message is from currently selected user, reload messages
+                // If message is from currently selected user, append it directly
                 if (selectedUserId && message.conversation_partner_id == selectedUserId) {
-                    loadMessages(selectedUserId);
+                    // Format the message for display
+                    const formattedMessage = {
+                        id: message.id,
+                        sender: {
+                            id: message.sender.id,
+                            name: message.sender.name,
+                            avatar_url: message.sender.avatar_url
+                        },
+                        formatted_message: message.message.replace(/\n/g, '<br>'),
+                        time: message.time,
+                        is_sender: false
+                    };
+                    
+                    // Add message to chat
+                    appendMessage(formattedMessage);
+                    
+                    // Play notification sound
+                    playNotificationSound();
+                    
+                    // Mark message as read
+                    markAsRead(message.conversation_partner_id);
                 }
-
-                // Update user list preview
-                updateUserLastMessage(message.conversation_partner_id, message.message, message.time);
+                
+                // Update user list preview and add notification badge
+                updateUserWithNewMessage(message.conversation_partner_id, message.message, message.time);
             });
+        }
+        
+        function markAsRead(userId) {
+            $.ajax({
+                url: `/api/chat/users/${userId}/mark-read`,
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                error: function(xhr) {
+                    console.error('Failed to mark messages as read:', xhr);
+                }
+            });
+        }
+        
+        function playNotificationSound() {
+            // You can implement a notification sound here
+            // const audio = new Audio('/assets/sounds/notification.mp3');
+            // audio.play();
         }
 
         function handleUserUpdates(userUpdates) {
@@ -486,12 +579,49 @@
             if (userItem.length) {
                 const messagePreview = userItem.find('.text-truncate-2-line');
                 messagePreview.text(message.substring(0, 50) + (message.length > 50 ? '...' : ''));
+                
+                // Move this user to the top of the list
+                const usersList = $('#usersList');
+                userItem.detach();
+                usersList.prepend(userItem);
+            }
+        }
+        
+        function updateUserWithNewMessage(userId, message, time) {
+            const userItem = $(`.user-item[data-user-id="${userId}"]`);
+            if (userItem.length) {
+                // Update message preview
+                const messagePreview = userItem.find('.text-truncate-2-line');
+                messagePreview.text(message.substring(0, 50) + (message.length > 50 ? '...' : ''));
+                messagePreview.addClass('fw-semibold text-dark').removeClass('text-muted');
+                
+                // Add or update unread badge
+                let badgeContainer = userItem.find('.position-absolute.top-0.end-0');
+                if (badgeContainer.length === 0) {
+                    userItem.find('.item-desc').append(`
+                        <div class="position-absolute top-0 end-0 mt-4 py-2 me-2">
+                            <span class="badge bg-danger rounded-pill">1</span>
+                        </div>
+                    `);
+                } else {
+                    const badge = badgeContainer.find('.badge');
+                    const count = parseInt(badge.text()) || 0;
+                    badge.text(count + 1);
+                }
+                
+                // Move this user to the top of the list
+                const usersList = $('#usersList');
+                userItem.detach();
+                usersList.prepend(userItem);
             }
         }
 
         function scrollToBottom() {
             const container = $('#messagesContainer');
-            container.scrollTop(container[0].scrollHeight);
+            // Use setTimeout to ensure the DOM has updated before scrolling
+            setTimeout(() => {
+                container.scrollTop(container[0].scrollHeight);
+            }, 50);
         }
 
         function showError(message) {

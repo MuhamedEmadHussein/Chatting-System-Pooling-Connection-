@@ -28,6 +28,7 @@ Route::middleware(['auth', 'throttle:60,1'])->prefix('api/chat')->name('api.chat
     // Message management  
     Route::get('/users/{user}/messages', [ChatController::class, 'getMessages'])->name('messages');
     Route::post('/users/{user}/messages', [ChatController::class, 'sendMessage'])->name('send');
+    Route::post('/users/{user}/mark-read', [ChatController::class, 'markAsRead'])->name('mark-read');
     
     // Real-time polling (with stricter rate limiting)
     Route::middleware(['throttle:30,1'])->group(function () {

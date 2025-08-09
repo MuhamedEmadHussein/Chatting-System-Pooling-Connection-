@@ -184,6 +184,7 @@ class ChatService
             return [
                 'id' => $message->id,
                 'message' => $message->sanitizedMessage(),
+                'formatted_message' => $message->formattedMessage(),
                 'sender' => [
                     'id' => $message->sender->id,
                     'name' => $message->sender->name,

@@ -200,6 +200,36 @@ class ChatController extends Controller
     }
 
     /**
+     * Mark messages as read
+     */
+    public function markAsRead(User $sender): JsonResponse
+    {
+        try {
+            $currentUser = Auth::user();
+
+            if ($sender->id === $currentUser->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid operation'
+                ], 422);
+            }
+
+            $markedCount = $this->chatService->markMessagesAsRead($currentUser, $sender);
+
+            return response()->json([
+                'success' => true,
+                'marked_count' => $markedCount
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to mark messages as read',
+                'error' => config('app.debug') ? $e->getMessage() : 'Internal server error'
+            ], 500);
+        }
+    }
+
+    /**
      * Toggle favorite status for a user
      */
     public function toggleFavorite(User $user): JsonResponse

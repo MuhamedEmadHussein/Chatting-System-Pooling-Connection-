@@ -169,7 +169,7 @@
                     <!--! BEGIN: Message Editor !-->
                     <div class="d-flex align-items-center justify-content-between border-top border-gray-5 bg-white sticky-bottom"
                         id="messageEditor"
-                        style="display: none !important;     position: absolute;
+                        style="display: none !important;     position: fixed;
     bottom: 0;
     width: 100%;">
                         <div class="d-flex align-center">

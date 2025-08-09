@@ -158,7 +158,7 @@ POST   /poll                     - Long polling for real-time updates
 - **Typing indicators**: Ready for implementation
 
 ### **Real-time Updates**
-- **Optimized polling**: 3-second intervals when active
+- **Optimized polling**: 2-second intervals when active
 - **Background polling**: 30-second intervals when inactive
 - **Automatic reconnection**: On network issues
 - **Page visibility API**: Intelligent resource usage

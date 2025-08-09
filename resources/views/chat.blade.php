@@ -172,28 +172,6 @@
                         style="display: none !important;     position: fixed;
     bottom: 0;
     width: 100%;">
-                        <div class="d-flex align-center">
-                            <div class="dropdown border-end border-gray-5">
-                                <a href="javascript:void(0)" data-bs-toggle="dropdown">
-                                    <div class="wd-60 d-flex align-items-center justify-content-center"
-                                        data-bs-toggle="tooltip" data-bs-trigger="hover" title="Emoji"
-                                        style="height: 59px"><i class="feather-smile"></i></div>
-                                </a>
-                            </div>
-                            <div class="dropdown border-end border-gray-5">
-                                <a href="javascript:void(0)" data-bs-toggle="dropdown">
-                                    <div class="wd-60 d-flex align-items-center justify-content-center"
-                                        data-bs-toggle="tooltip" data-bs-trigger="hover" title="Upload Attachments"
-                                        style="height: 59px"><i class="feather-link"></i></div>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0)" class="dropdown-item"><i
-                                                class="feather-image me-3"></i>Upload Images</a></li>
-                                    <li><a href="javascript:void(0)" class="dropdown-item"><i
-                                                class="feather-file me-3"></i>Upload Documents</a></li>
-                                </ul>
-                            </div>
-                        </div>
                         <input class="form-control border-0" placeholder="Type your message here..." id="messageInput">
                         <div class="border-start border-gray-5 send-message">
                             <a href="javascript:void(0)" class="wd-60 d-flex align-items-center justify-content-center"
@@ -252,6 +230,8 @@
         }
 
         function selectUser(userId, userName, element) {
+            // Store previous user ID to check if we're switching chats
+            const previousUserId = selectedUserId;
             selectedUserId = userId;
 
             // Update UI
@@ -283,8 +263,18 @@
                 `fs-9 text-uppercase fw-bold ${isOnline ? 'text-success' : 'text-muted'}`).text(isOnline ?
                 'Active Now' : lastSeen);
 
+            // Clear previous messages when switching chats
+            if (previousUserId !== userId) {
+                $('#messagesContainer').html('<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Loading messages...</p></div>');
+            }
+            
             // Load messages
             loadMessages(userId);
+            
+            // Mark messages as read when selecting a user
+            if (previousUserId !== userId) {
+                markAsRead(userId);
+            }
         }
 
         function loadMessages(userId) {
